@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Valentine’s Day 🐭❤️</title>
+
+  <style>
+    html, body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+
+    body {
+      background: url("./bg.jpg") center / cover no-repeat fixed;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.30);
+      z-index: 0; pointer-events: none;
+    }
+
+    canvas#snow { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+    /* ефекти */
+    #fxLayer {
+      position: fixed; inset: 0;
+      z-index: 9000;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* 🍆 + SEX над усім */
+    #sexLayer {
+      position: fixed; inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .fx {
+      position: absolute;
+      opacity: 0.98;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+      will-change: transform, opacity;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .wrap {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; justify-content: center;
+      padding: 18px; box-sizing: border-box;
+    }
+
+    .box {
+      width: min(860px, 92vw);
+      margin: 20px 0;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 22px;
+      padding: 18px;
+      backdrop-filter: blur(7px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      color: #fff;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(26px, 4vw, 42px);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0 0 16px;
+      font-size: clamp(16px, 2.2vw, 20px);
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    .ctaRow {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 10px 0 14px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 16px;
+      background: rgba(255,255,255,0.92);
+      color: #111;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      transition: transform 0.15s ease;
+    }
+
+    button:active { transform: translateY(1px) scale(0.99); }
+
+    /* NO тремтить */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      50% { transform: translateX(2px); }
+      75% { transform: translateX(-2px); }
+      100% { transform: translateX(0); }
+    }
+    .noBtn:hover { animation: shake 0.25s infinite; }
+
+    .answer {
+      display: none;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+      margin: 6px 0 10px;
+    }
+
+    /* ЛІЧИЛЬНИК */
+    .counter {
+      margin: 6px 0 16px;
+      text-align: center;
+      font-size: clamp(15px, 2.2vw, 19px);
+      font-weight: 700;
+      opacity: 0.95;
+    }
+
+    /* ПУЛЬС МИШІ 🐭 */
+    .pulseMouse {
+      display: inline-block;
+      margin-left: 6px;
+      animation: pulse 1s infinite ease-in-out;
+      transform-origin: center;
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+
+    .gallery { display: grid; gap: 16px; }
+
+    .cardImg {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.30);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.35);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .hint {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay"></div>
+  <canvas id="snow"></canvas>
+
+  <div id="fxLayer"></div>
+  <div id="sexLayer"></div>
+
+  <div class="wrap">
+    <div class="box">
+
+      <h1>Happy Valentine’s Day, мій миш 🐭❤️</h1>
+
+      <p>
+        Will you be my boyfriend this year? ❤️<br>
+        Please say yes... please!!!<br>
+        ❤️
+      </p>
+
+      <div class="ctaRow">
+        <button class="yesBtn" id="yesBtn">YES 💖</button>
+        <button class="noBtn" id="noBtn">NO 💔</button>
+      </div>
+
+      <div class="answer" id="answer"></div>
+      <div class="counter" id="counter"></div>
+
+      <div class="gallery">
+        <img class="cardImg" src="./card1.jpg" alt="Card 1">
+        <img class="cardImg" src="./card2.jpg" alt="Card 2">
+        <img class="cardImg" src="./card3.jpg" alt="Card 3">
+        <img class="cardImg" src="./card4.jpg" alt="Card 4">
+      </div>
+
+      <div class="hint">✨ ти красивий ✨</div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== СНІГ ===== */
+    const canvas = document.getElementById("snow");
+    const ctx = canvas.getContext("2d");
+
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const flakes = Array.from({ length: 140 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 1,
+      vy: Math.random() * 1.6 + 0.6,
+      vx: Math.random() - 0.5,
+      drift: Math.random() * Math.PI * 2
+    }));
+
+    function drawSnow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      flakes.forEach(f => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fill();
+        f.drift += 0.01;
+        f.x += f.vx + Math.sin(f.drift) * 0.4;
+        f.y += f.vy;
+        if (f.y > canvas.height) { f.y = -10; f.x = Math.random() * canvas.width; }
+      });
+      requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
+
+    /* ===== ВИБУХ ЕМОДЗІ (серця/погане) ===== */
+    const fxLayer = document.getElementById("fxLayer");
+    const good = ["❤️","💖","💘","💕","💞"];
+    const bad = ["💔","😭","😢","🥺","💩"];
+
+    function burst(layer, x, y, arr, amount, duration=900, distMin=40, distMax=140) {
+      for (let i = 0; i < amount; i++) {
+        const e = document.createElement("div");
+        e.className = "fx";
+        e.textContent = arr[Math.floor(Math.random() * arr.length)];
+        layer.appendChild(e);
+
+        e.style.left = x + "px";
+        e.style.top = y + "px";
+        e.style.fontSize = (Math.random() * 16 + 16) + "px";
+
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * (distMax - distMin) + distMin;
+
+        e.animate(
+          [
+            { transform: "translate(0,0) scale(0.8)", opacity: 0 },
+            { opacity: 1, offset: 0.2 },
+            { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(1.3)`, opacity: 0 }
+          ],
+          { duration, easing: "ease-out", fill: "forwards" }
+        );
+
+        setTimeout(() => e.remove(), duration + 60);
+      }
+    }
+
+    // тап будь-де — сердечка
+    document.addEventListener("pointerdown", (e) => {
+      burst(fxLayer, e.clientX, e.clientY, good, 10);
+    });
+
+    /* ===== 🍆 + SEX з YES (як було) ===== */
+    const sexLayer = document.getElementById("sexLayer");
+    const yesBtn = document.getElementById("yesBtn");
+    const sexy = ["🍆","SEX","🍆","SEX","🍆"];
+
+    let sexTimer = null;
+
+    function spawnSexyBurst() {
+      const r = yesBtn.getBoundingClientRect();
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      burst(sexLayer, x, y, sexy, 8, 1200, 60, 240);
+    }
+
+    // hover (десктоп)
+    yesBtn.addEventListener("mouseenter", () => {
+      if (sexTimer) return;
+      spawnSexyBurst();
+      sexTimer = setInterval(spawnSexyBurst, 650);
+    });
+
+    yesBtn.addEventListener("mouseleave", () => {
+      clearInterval(sexTimer);
+      sexTimer = null;
+    });
+
+    // touch (телефон)
+    yesBtn.addEventListener("touchstart", () => {
+      spawnSexyBurst();
+    }, { passive: true });
+
+    /* ===== YES / NO кліки (повертаємо) ===== */
+    const answer = document.getElementById("answer");
+    const noBtn = document.getElementById("noBtn");
+
+    yesBtn.addEventListener("click", (e) => {
+      answer.style.display = "block";
+      answer.textContent = "Цьомікссс💘 ";
+      const r = e.target.getBoundingClientRect();
+      burst(fxLayer, r.left + r.width/2, r.top + r.height/2, good, 26);
+      spawnSexyBurst();
+    });
+
+    noBtn.addEventListener("click", (e) => {
+      answer.style.display = "block";
+      answer.textContent = "Цирі тебе ЗАКАКАЄ💩💩💩";
+      const r = e.target.getBoundingClientRect();
+      burst(fxLayer, r.left + r.width/2, r.top + r.height/2, bad, 30);
+    });
+
+    /* ===== ЛІЧИЛЬНИК: МИ РАЗОМ ВЖЕ X ДНІВ + ПУЛЬСУЮЧА МИША ===== */
+    const counterEl = document.getElementById("counter");
+    const startDate = new Date(2023, 3, 6); // 6 квітня 2023
+
+    function updateCounter() {
+      const today = new Date();
+      const start = new Date(startDate);
+
+      start.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+
+      const diff = today - start;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      counterEl.innerHTML = `Ми разом вже <b>${days}</b> днів <span class="pulseMouse">🐭</span>`;
+    }
+
+    updateCounter();
+  </script>
+</body>
+</html>
